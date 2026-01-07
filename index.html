@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | Typing Speed Test</title>
+
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    img{max-width:100%;display:block}
+    button{font:inherit}
+  </style>
+</head>
+<body>
+  <main id="app">
+    <header>
+      <div class="brand">
+        <img src="./assets/images/logo-small.svg" alt="" aria-hidden="true">
+        <div>
+          <h1>Typing Speed Test</h1>
+          <p>Type as fast as you can in 60 seconds</p>
+        </div>
+      </div>
+      <div class="personal-best" aria-live="polite">
+        <img src="./assets/images/icon-personal-best.svg" alt="" aria-hidden="true">
+        <span>Personal best:</span>
+        <strong id="personal-best">— WPM</strong>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Stats and controls">
+      <div class="metrics">
+        <p>WPM: <span id="stat-wpm">0</span></p>
+        <p>Accuracy: <span id="stat-accuracy">100%</span></p>
+        <p>Time: <span id="stat-time">0:60</span></p>
+      </div>
+      <div class="toggles">
+        <div class="control-group">
+          <h2>Difficulty</h2>
+          <div role="group" aria-label="Select difficulty">
+            <button type="button" id="diff-easy">Easy</button>
+            <button type="button" id="diff-medium">Medium</button>
+            <button type="button" id="diff-hard">Hard</button>
+          </div>
+        </div>
+        <div class="control-group">
+          <h2>Mode</h2>
+          <div role="group" aria-label="Select mode">
+            <button type="button" id="mode-timed">Timed (60s)</button>
+            <button type="button" id="mode-passage">Passage</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="typing" aria-label="Typing area">
+      <article class="passage" id="passage" tabindex="0"></article>
+    </section>
+
+    <footer class="footer-actions" aria-label="Actions">
+      <button type="button" id="restart-btn">Restart Test</button>
+    </footer>
+
+    <section class="results" aria-label="Results" hidden>
+      <h2>Test Complete!</h2>
+      <p>Solid run. Keep pushing to beat your high score.</p>
+      <dl>
+        <div>
+          <dt>WPM</dt><dd id="result-wpm">0</dd>
+        </div>
+        <div>
+          <dt>Accuracy</dt><dd id="result-accuracy">100%</dd>
+        </div>
+        <div>
+          <dt>Characters</dt><dd id="result-characters">0/0</dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+</body>
+</html>
