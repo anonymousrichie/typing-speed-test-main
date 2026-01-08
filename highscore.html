@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <title>Typing Speed Test — New High Score</title>
+  <style>
+    @font-face{font-family:'Sora';font-weight:400;src:url('./assets/fonts/Sora/static/Sora-Regular.ttf') format('truetype')}
+    @font-face{font-family:'Sora';font-weight:600;src:url('./assets/fonts/Sora/static/Sora-SemiBold.ttf') format('truetype')}
+    @font-face{font-family:'Sora';font-weight:700;src:url('./assets/fonts/Sora/static/Sora-Bold.ttf') format('truetype')}
+    :root{--n900:hsl(0,0%,7%);--n800:hsl(0,0%,15%);--n500:hsl(240,3%,46%);--n400:hsl(240,1%,59%);--n0:hsl(0,0%,100%);--b600:hsl(214,100%,55%);--r500:hsl(354,63%,57%);--g500:hsl(140,63%,57%)}
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    img{max-width:100%;display:block}
+    a,button{font:inherit;cursor:pointer}
+    body{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:var(--n900)}
+    #app{position:relative;overflow:hidden;max-width:none;width:100vw;margin:0;min-height:100vh;padding:24px 32px 100px;background:var(--n900);color:var(--n400);border-radius:0;box-shadow:none}
+    header{display:flex;justify-content:space-between;align-items:center}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:24px;height:24px}
+    .brand h1{margin:0;font-size:18px;font-weight:700;color:var(--n0)}
+    .brand p{margin:0;font-size:12px;color:var(--n500)}
+    .pb{display:flex;align-items:center;gap:8px;color:var(--n0);font-size:13px}
+    .pb img{width:18px;height:18px}
+
+    .hero{display:flex;align-items:center;justify-content:center;margin:40px 0 16px}
+    .badge{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(closest-side, rgba(0,0,0,.28), transparent 70%)}
+    .badge img{width:44px;height:44px}
+
+    .title{text-align:center}
+    .title h2{margin:12px 0 6px;color:var(--n0);font-size:28px;font-weight:700}
+    .title p{margin:0;color:var(--n500);font-size:14px}
+
+    .cards{display:flex;justify-content:center;gap:16px;margin:24px 0 28px}
+    .card{min-width:180px;border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:14px 16px}
+    .card dt{color:var(--n500);font-size:14px}
+    .card dd{margin:6px 0 0;color:var(--n0);font-size:22px;font-weight:700}
+    .card dd .bad{color:var(--r500);font-weight:700}
+    .card dd .good{color:var(--g500);font-weight:700}
+
+    .actions{display:flex;justify-content:center}
+    .btn{display:inline-flex;align-items:center;gap:8px;background:var(--n0);color:var(--n900);border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:10px 16px;text-decoration:none;box-shadow:0 2px 0 rgba(0,0,0,.06) inset}
+    .btn:hover{background:#f2f2f2}
+    .btn img{width:16px;height:16px}
+
+    .confetti{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;pointer-events:none}
+    @media (max-width:640px){
+      #app{width:100vw;margin:0;min-height:100vh;padding:16px 16px 100px;border-radius:0;box-shadow:none}
+      .cards{flex-direction:column;align-items:center}
+      .card{width:100%;max-width:320px}
+    }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <header>
+      <div class="brand">
+        <img src="./assets/images/logo-small.svg" alt="" aria-hidden="true">
+        <div>
+          <h1>Typing Speed Test</h1>
+          <p>Type as fast as you can in 60 seconds</p>
+        </div>
+      </div>
+      <div class="pb" aria-live="polite">
+        <img src="./assets/images/icon-personal-best.svg" alt="" aria-hidden="true">
+        <span>Personal best:</span>
+        <strong id="personal-best">— WPM</strong>
+      </div>
+    </header>
+
+    <div class="hero">
+      <div class="badge">
+        <img src="./assets/images/icon-new-pb.svg" alt="" aria-hidden="true">
+      </div>
+    </div>
+
+    <div class="title">
+      <h2 id="result-title">High Score Smashed!</h2>
+      <p id="result-subtitle">You're getting faster. That was incredible typing.</p>
+    </div>
+
+    <section class="cards" aria-label="Results">
+      <dl class="card">
+        <dt>WPM:</dt>
+        <dd id="result-wpm">0</dd>
+      </dl>
+      <dl class="card">
+        <dt>Accuracy:</dt>
+        <dd id="result-accuracy"><span class="bad">0%</span></dd>
+      </dl>
+      <dl class="card">
+        <dt>Characters</dt>
+        <dd id="result-characters"><span class="good">0</span>/<span class="bad">0</span></dd>
+      </dl>
+    </section>
+
+    <div class="actions">
+      <a href="./started.html" class="btn"><img src="./assets/images/icon-new-pb.svg" alt="" aria-hidden="true">Beat This Score</a>
+    </div>
+
+    <img class="confetti" src="./assets/images/pattern-confetti.svg" alt="" aria-hidden="true">
+  </main>
+
+  <script>
+    const last=JSON.parse(localStorage.getItem('lastResult')||'{}');
+    const pb=localStorage.getItem('personalBestWpm');
+    if(pb){document.getElementById('personal-best').textContent=pb+' WPM'}
+    if(last.status!=='highScore'){window.location.href='./results.html'}
+    if(typeof last.wpm==='number'){document.getElementById('result-wpm').textContent=last.wpm}
+    if(typeof last.accuracy==='number'){document.getElementById('result-accuracy').innerHTML='<span class="bad">'+last.accuracy+'%<\/span>'}
+    if(typeof last.correct==='number'&&typeof last.incorrect==='number'){
+      document.getElementById('result-characters').innerHTML='<span class="good">'+last.correct+'<\/span>/<span class="bad">'+last.incorrect+'<\/span>'
+    }
+  </script>
+</body>
+</html>
