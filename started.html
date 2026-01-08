@@ -37,11 +37,14 @@
     .pill.is-active{background:rgba(48,122,255,.18);border-color:var(--b600);color:var(--n0)}
     .control-select{display:none}
     .dropdown{position:relative;width:180px}
-    .dropdown-btn{width:100%;background:transparent;color:var(--n0);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:6px 12px;line-height:1;text-align:left}
-    .dropdown-menu{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--n800);border:1px solid rgba(255,255,255,.16);border-radius:8px;display:none;z-index:10}
+    .dropdown-btn{position:relative;width:100%;background:transparent;color:var(--n0);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:10px 12px;line-height:1.2;text-align:left}
+    .dropdown-btn::after{content:'\25BE';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--n400);font-size:12px}
+    .dropdown-btn:hover{background:rgba(255,255,255,.04)}
+    .dropdown-menu{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--n800);border:1px solid rgba(255,255,255,.16);border-radius:8px;display:none;z-index:10;overflow:hidden;list-style:none;margin:0;padding:0}
     .dropdown.open .dropdown-menu{display:block}
-    .dropdown-menu li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.08);color:var(--n0)}
+    .dropdown-menu li{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08);color:var(--n0)}
     .dropdown-menu li:last-child{border-bottom:none}
+    .dropdown-menu li[aria-selected="true"]{background:rgba(255,255,255,.04)}
     .radio{width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-radius:50%}
     .dropdown-menu li[aria-selected="true"] .radio{border-color:var(--b600)}
     .dropdown-menu li[aria-selected="true"] .radio::after{content:'';display:block;width:6px;height:6px;background:var(--b600);border-radius:50%;margin:2px auto}
@@ -54,7 +57,7 @@
     .btn{display:inline-flex;align-items:center;gap:8px;background:var(--n800);color:var(--n0);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 14px;box-shadow:0 2px 0 rgba(255,255,255,.06) inset;text-decoration:none}
     .btn:hover{background:#2a2a2a}
     .btn img{width:16px;height:16px}
-    @media (max-width:640px){#app{width:100vw;margin:0;min-height:100vh;padding:16px;border-radius:0;box-shadow:none}.toolbar{flex-direction:column;gap:12px}.toggles{flex-direction:row;gap:12px}.label{display:none}.control-group{flex:1}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:0;align-items:start}.metrics p{padding:8px}.metrics p+ p{border-left:1px solid rgba(255,255,255,.16)}.metrics span{display:block;font-size:18px;font-weight:700}.control-group [role="group"]{display:none}.control-select{display:flex;gap:12px;width:100%}.dropdown{flex:1;width:auto}.brand h1,.brand p{display:none}}
+    @media (max-width:640px){#app{width:100vw;margin:0;min-height:100vh;padding:16px;border-radius:0;box-shadow:none}.toolbar{flex-direction:column;gap:12px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:0;align-items:start}.metrics p{padding:8px}.metrics p+ p{border-left:1px solid rgba(255,255,255,.16)}.metrics span{display:block;font-size:18px;font-weight:700}.toggles{flex-direction:row;gap:12px;align-items:center;width:100%}.label{display:none}.control-group{flex:1}.control-group [role="group"]{display:none}.control-select{display:flex;gap:12px;width:100%}.dropdown{flex:1;width:100%;position:relative}.dropdown-btn{display:block}.brand h1,.brand p{display:none}}
   </style>
 </head>
 <body>
@@ -81,7 +84,7 @@
         <p>Time: <span id="stat-time">0:60</span></p>
       </div>
       <div class="toggles">
-        <div class="control-group">
+        <div class="control-group control-difficulty">
           <span class="label">Difficulty:</span>
           <div role="group" aria-label="Select difficulty">
             <button type="button" class="pill" id="diff-easy">Easy</button>
@@ -90,7 +93,7 @@
           </div>
           <div class="control-select" aria-hidden="false">
             <div class="dropdown" id="diff-dropdown">
-              <button type="button" class="dropdown-btn" id="diff-select-btn" aria-haspopup="listbox" aria-expanded="false">Hard</button>
+              <button type="button" class="dropdown-btn" id="diff-select-btn" aria-haspopup="listbox" aria-expanded="false">Difficulty</button>
               <ul class="dropdown-menu" id="diff-select-menu" role="listbox">
                 <li role="option" data-value="easy" aria-selected="false"><span class="radio"></span>Easy</li>
                 <li role="option" data-value="medium" aria-selected="false"><span class="radio"></span>Medium</li>
@@ -107,7 +110,7 @@
           </div>
           <div class="control-select" aria-hidden="false">
             <div class="dropdown" id="mode-dropdown">
-              <button type="button" class="dropdown-btn" id="mode-select-btn" aria-haspopup="listbox" aria-expanded="false">Timed (60s)</button>
+              <button type="button" class="dropdown-btn" id="mode-select-btn" aria-haspopup="listbox" aria-expanded="false">Mode</button>
               <ul class="dropdown-menu" id="mode-select-menu" role="listbox">
                 <li role="option" data-value="timed" aria-selected="true"><span class="radio"></span>Timed (60s)</li>
                 <li role="option" data-value="passage" aria-selected="false"><span class="radio"></span>Passage</li>

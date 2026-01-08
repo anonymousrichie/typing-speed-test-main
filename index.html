@@ -48,6 +48,7 @@
     #start-btn:focus-visible{outline:2px solid var(--b400);outline-offset:2px}
     .results{padding:24px 0}
     @media (max-width:640px){#app{width:100vw;margin:0;min-height:100vh;padding:16px;border-radius:0;box-shadow:none}.toolbar{flex-direction:column;gap:12px}.toggles{flex-direction:row;gap:12px}.label{display:none}.control-group{flex:1}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:0;align-items:start}.metrics p{padding:8px;margin:0}.metrics p+ p{border-left:1px solid rgba(255,255,255,.16)}.metrics span{display:block;font-size:18px;font-weight:700;color:var(--n0)}.control-group [role="group"]{display:none}.control-select{display:flex;gap:12px;width:100%}.control-select>*,.control-select .select-wrap{flex:1}.control-select select{width:100%;appearance:auto}.control-select .select-wrap::after{content:none}.is-not-started .brand h1,.is-not-started .brand p{display:none}}
+    .dropdown-menu{list-style:none;margin:0;padding:0}
   </style>
 </head>
 <body>
@@ -124,8 +125,26 @@
   <script>
     (function(){
       var pb=localStorage.getItem('personalBestWpm');
-      var el=document.getElementById('personal-best');
-      if(el){el.textContent=((pb? pb : 0))+' WPM';}
+      var pbEl=document.getElementById('personal-best');
+      if(pbEl){pbEl.textContent=((pb? pb : 0))+' WPM';}
+      function setupDropdown(rootId, storageKey, fallbackLabel){
+        var root=document.getElementById(rootId); if(!root) return;
+        var btn=root.querySelector('.dropdown-btn'); var menu=root.querySelector('.dropdown-menu');
+        var saved=localStorage.getItem(storageKey);
+        if(saved){menu.querySelectorAll('li[role="option"]').forEach(function(li){li.setAttribute('aria-selected', li.dataset.value===saved?'true':'false')});
+          var sel=menu.querySelector('li[aria-selected="true"]'); if(sel) btn.textContent=sel.textContent.trim();
+        } else {btn.textContent=fallbackLabel}
+        btn.addEventListener('click',function(){var open=root.classList.toggle('open');btn.setAttribute('aria-expanded',open)});
+        menu.addEventListener('click',function(e){var li=e.target.closest('li[role="option"]'); if(!li) return;
+          menu.querySelectorAll('li[role="option"]').forEach(function(x){x.setAttribute('aria-selected','false')});
+          li.setAttribute('aria-selected','true'); btn.textContent=li.textContent.trim();
+          root.classList.remove('open'); btn.setAttribute('aria-expanded','false');
+          localStorage.setItem(storageKey, li.dataset.value);
+        });
+        document.addEventListener('click',function(ev){if(!root.contains(ev.target)){root.classList.remove('open');btn.setAttribute('aria-expanded','false')}});
+      }
+      setupDropdown('diff-dropdown','selectedDifficulty','Hard');
+      setupDropdown('mode-dropdown','selectedMode','Timed (60s)');
     })();
   </script>
 </body>

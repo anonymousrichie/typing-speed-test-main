@@ -107,10 +107,62 @@ function handleKey(e){
     if(i>=chars.length){finish()}
   }
 }
+function isMobile(){return window.matchMedia('(max-width:640px)').matches}
 function bindToggles(){
   document.querySelectorAll('[role="group"]').forEach(group=>{
     group.addEventListener("click",e=>{
       const b=e.target.closest("button");if(!b)return;
+      if(isMobile() && group.getAttribute('aria-label')==='Select difficulty'){
+        const dd=document.getElementById('diff-dropdown');
+        const cs=document.querySelector('.control-difficulty .control-select');
+        const btn=dd?.querySelector('.dropdown-btn');
+        if(cs) cs.classList.add('show');
+        if(dd&&btn){
+          const open=dd.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));if(cs) cs.classList[open?'add':'remove']('show');
+          const onDocClick=(ev)=>{
+            if(!dd.contains(ev.target)){
+              dd.classList.remove('open');btn.setAttribute('aria-expanded','false');
+              if(cs) cs.classList.remove('show');
+              document.removeEventListener('click',onDocClick);
+            }
+          };
+          setTimeout(()=>document.addEventListener('click',onDocClick),0);
+          dd.addEventListener('click',e=>{
+            const el=e.target.closest('[role="option"],[data-value]');
+            if(el){
+              btn.textContent='Difficulty';
+              dd.classList.remove('open');btn.setAttribute('aria-expanded','false');
+              if(cs) cs.classList.remove('show');
+            }
+          },{once:true});
+        }
+        return;
+      } else if(isMobile() && group.getAttribute('aria-label')==='Select mode'){
+        const md=document.getElementById('mode-dropdown');
+        const cs=document.querySelector('.control-mode .control-select');
+        const btn=md?.querySelector('.dropdown-btn');
+        if(cs) cs.classList.add('show');
+        if(md&&btn){
+          const open=md.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));if(cs) cs.classList[open?'add':'remove']('show');
+          const onDocClick=(ev)=>{
+            if(!md.contains(ev.target)){
+              md.classList.remove('open');btn.setAttribute('aria-expanded','false');
+              if(cs) cs.classList.remove('show');
+              document.removeEventListener('click',onDocClick);
+            }
+          };
+          setTimeout(()=>document.addEventListener('click',onDocClick),0);
+          md.addEventListener('click',e=>{
+            const el=e.target.closest('[role="option"],[data-value]');
+            if(el){
+              btn.textContent='Mode';
+              md.classList.remove('open');btn.setAttribute('aria-expanded','false');
+              if(cs) cs.classList.remove('show');
+            }
+          },{once:true});
+        }
+        return;
+      }
       group.querySelectorAll("button").forEach(x=>x.classList.remove("is-active"));
       b.classList.add("is-active");
       mode=activeMode();
@@ -135,18 +187,54 @@ function bindSelects(){
     document.getElementById("diff-easy")?.classList.toggle("is-active",ds.value==='easy');
     document.getElementById("diff-medium")?.classList.toggle("is-active",ds.value==='medium');
     document.getElementById("diff-hard")?.classList.toggle("is-active",ds.value==='hard');
+    const dd=document.getElementById('diff-dropdown'); const btn=dd?.querySelector('.dropdown-btn'); if(btn) btn.textContent='Difficulty';
     reset();
   });}
   if(ms){ms.addEventListener("change",()=>{
     document.getElementById("mode-timed")?.classList.toggle("is-active",ms.value==='timed');
     document.getElementById("mode-passage")?.classList.toggle("is-active",ms.value==='passage');
     mode=activeMode();
+    const md=document.getElementById('mode-dropdown'); const btn=md?.querySelector('.dropdown-btn'); if(btn) btn.textContent='Mode';
     reset();
   });}
 }
+function bindDropdowns(){
+  const setup=(rootId, storageKey, label)=>{
+    const root=document.getElementById(rootId); if(!root) return;
+    const btn=root.querySelector('.dropdown-btn'); const menu=root.querySelector('.dropdown-menu');
+    btn?.addEventListener('click',()=>{
+      const open=root.classList.toggle('open');
+      btn.setAttribute('aria-expanded',String(open));
+    });
+    menu?.addEventListener('click',e=>{
+      const li=e.target.closest('li[role="option"]'); if(!li) return;
+      menu.querySelectorAll('li[role="option"]').forEach(x=>x.setAttribute('aria-selected','false'));
+      li.setAttribute('aria-selected','true');
+      if(rootId==='diff-dropdown'){
+        document.getElementById('diff-easy')?.classList.toggle('is-active',li.dataset.value==='easy');
+        document.getElementById('diff-medium')?.classList.toggle('is-active',li.dataset.value==='medium');
+        document.getElementById('diff-hard')?.classList.toggle('is-active',li.dataset.value==='hard');
+        localStorage.setItem('selectedDifficulty', li.dataset.value);
+      }
+      if(rootId==='mode-dropdown'){
+        document.getElementById('mode-timed')?.classList.toggle('is-active',li.dataset.value==='timed');
+        document.getElementById('mode-passage')?.classList.toggle('is-active',li.dataset.value==='passage');
+        localStorage.setItem('selectedMode', li.dataset.value);
+      }
+      root.classList.remove('open');
+      btn.textContent=label;
+      btn.setAttribute('aria-expanded','false');
+      mode=activeMode();
+      reset();
+    });
+    document.addEventListener('click',ev=>{if(!root.contains(ev.target)){root.classList.remove('open');btn?.setAttribute('aria-expanded','false')}});
+  };
+  setup('diff-dropdown','selectedDifficulty','Difficulty');
+  setup('mode-dropdown','selectedMode','Mode');
+}
 
 fetch("./data.json").then(r=>r.json()).then(j=>{
-  DATA=j;setPBText();bindToggles();bindSelects();renderText(pickPassage());document.addEventListener("keydown",handleKey);
+  DATA=j;setPBText();bindToggles();bindSelects();bindDropdowns();renderText(pickPassage());document.addEventListener("keydown",handleKey);
 });
 restartBtn?.addEventListener("click",()=>{reset()});
 passageEl?.addEventListener("click",()=>{startTest()});
