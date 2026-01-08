@@ -44,11 +44,15 @@
     .btn:hover{background:#f2f2f2}
     .btn img{width:16px;height:16px}
 
-    .confetti{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;pointer-events:none}
+    .confetti{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;pointer-events:none;z-index:0}
+    .middle{flex:1;display:flex;flex-direction:column;justify-content:flex-start;position:relative;z-index:1}
+    .actions{position:relative;z-index:1}
     @media (max-width:640px){
-      #app{width:100vw;margin:0;min-height:100vh;padding:16px 16px 100px;border-radius:0;box-shadow:none}
-      .cards{flex-direction:column;align-items:center}
+      html,body{height:100%;overflow:hidden}
+      #app{width:100vw;margin:0;height:100vh;display:flex;flex-direction:column;padding:16px 16px 72px;border-radius:0;box-shadow:none}
+      .cards{flex-direction:column;align-items:center;margin:16px 0}
       .card{width:100%;max-width:320px}
+      .actions{margin-top:auto}
       .brand h1,.brand p{display:none}
     }
   </style>
@@ -70,31 +74,33 @@
       </div>
     </header>
 
-    <div class="hero">
-      <div class="badge">
-        <img src="./assets/images/icon-new-pb.svg" alt="" aria-hidden="true">
+    <div class="middle">
+      <div class="hero">
+        <div class="badge">
+          <img src="./assets/images/icon-new-pb.svg" alt="" aria-hidden="true">
+        </div>
       </div>
-    </div>
 
-    <div class="title">
-      <h2 id="result-title">High Score Smashed!</h2>
-      <p id="result-subtitle">You're getting faster. That was incredible typing.</p>
-    </div>
+      <div class="title">
+        <h2 id="result-title">High Score Smashed!</h2>
+        <p id="result-subtitle">You're getting faster. That was incredible typing.</p>
+      </div>
 
-    <section class="cards" aria-label="Results">
-      <dl class="card">
-        <dt>WPM:</dt>
-        <dd id="result-wpm">0</dd>
-      </dl>
-      <dl class="card">
-        <dt>Accuracy:</dt>
-        <dd id="result-accuracy"><span class="bad">0%</span></dd>
-      </dl>
-      <dl class="card">
-        <dt>Characters</dt>
-        <dd id="result-characters"><span class="good">0</span>/<span class="bad">0</span></dd>
-      </dl>
-    </section>
+      <section class="cards" aria-label="Results">
+        <dl class="card">
+          <dt>WPM:</dt>
+          <dd id="result-wpm">0</dd>
+        </dl>
+        <dl class="card">
+          <dt>Accuracy:</dt>
+          <dd id="result-accuracy"><span class="bad">0%</span></dd>
+        </dl>
+        <dl class="card">
+          <dt>Characters</dt>
+          <dd id="result-characters"><span class="good">0</span>/<span class="bad">0</span></dd>
+        </dl>
+      </section>
+    </div>
 
     <div class="actions">
       <a href="./started.html" class="btn"><img src="./assets/images/icon-new-pb.svg" alt="" aria-hidden="true">Beat This Score</a>

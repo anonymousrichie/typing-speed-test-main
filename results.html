@@ -30,8 +30,8 @@
     .pb img{width:18px;height:18px}
 
     .decor-left,.decor-right{position:absolute;pointer-events:none}
-    .decor-left{left:-28px;top:140px}
-    .decor-right{right:-28px;top:240px}
+    .decor-left{left:-28px;top:100px}
+    .decor-right{right:-28px;bottom:100px;top:auto}
 
     .hero{display:flex;align-items:center;justify-content:center;margin:40px 0 16px}
     .badge{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(closest-side, rgba(0,0,0,.28), transparent 70%)}
@@ -58,6 +58,8 @@
       .cards{flex-direction:column;align-items:center}
       .card{width:100%;max-width:320px}
       .brand h1,.brand p{display:none}
+      .decor-left{left:0;top:80px}
+      .decor-right{right:0;bottom:80px;top:auto}
     }
   </style>
 </head>
@@ -78,8 +80,8 @@
       </div>
     </header>
 
-    <img class="decor-left" src="./assets/images/pattern-star-1.svg" alt="" aria-hidden="true">
-    <img class="decor-right" src="./assets/images/pattern-star-2.svg" alt="" aria-hidden="true">
+    <img class="decor-left" src="./assets/images/pattern-star-2.svg" alt="" aria-hidden="true">
+    <img class="decor-right" src="./assets/images/pattern-star-1.svg" alt="" aria-hidden="true">
 
     <div class="hero">
       <div class="badge">
