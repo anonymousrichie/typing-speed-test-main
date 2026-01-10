@@ -42,17 +42,31 @@
     .actions{display:flex;justify-content:center}
     .btn{display:inline-flex;align-items:center;gap:8px;background:var(--n0);color:var(--n900);border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:10px 16px;text-decoration:none;box-shadow:0 2px 0 rgba(0,0,0,.06) inset}
     .btn:hover{background:#f2f2f2}
-    .btn img{width:16px;height:16px}
+    .btn img{width:16px;height:16px;filter:invert(1)}
 
     .confetti{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;pointer-events:none;z-index:0}
     .middle{flex:1;display:flex;flex-direction:column;justify-content:flex-start;position:relative;z-index:1}
     .actions{position:relative;z-index:1}
+    @media (min-width:641px) and (max-width:1024px){
+      #app{padding:24px 32px 60px}
+      .cards{flex-direction:row;justify-content:center;gap:16px}
+      .card{min-width:180px}
+      .hero{margin:40px 0 16px}
+      .title h2{margin:12px 0 6px;font-size:28px}
+      .brand h1,.brand p{display:block}
+    }
     @media (max-width:640px){
       html,body{height:100%;overflow:hidden}
-      #app{width:100vw;margin:0;height:100vh;display:flex;flex-direction:column;padding:16px 16px 72px;border-radius:0;box-shadow:none}
-      .cards{flex-direction:column;align-items:center;margin:16px 0}
-      .card{width:100%;max-width:320px}
-      .actions{margin-top:auto}
+      #app{width:100vw;margin:0;height:100vh;display:flex;flex-direction:column;padding:16px 16px 90px;border-radius:0;box-shadow:none}
+      .cards{flex-direction:column;align-items:center;margin:12px 0 8px}
+      .card{width:100%;max-width:320px;padding:12px 14px}
+      .card dt{font-size:13px}
+      .card dd{font-size:20px;margin:4px 0 0}
+      .hero{margin:20px 0 8px}
+      .title h2{margin:6px 0 3px;font-size:24px}
+      .title p{font-size:13px}
+      .actions{margin-top:auto;position:relative;z-index:1}
+      .btn{padding:10px 16px}
       .brand h1,.brand p{display:none}
     }
   </style>
@@ -103,7 +117,7 @@
     </div>
 
     <div class="actions">
-      <a href="./started.html" class="btn"><img src="./assets/images/icon-new-pb.svg" alt="" aria-hidden="true">Beat This Score</a>
+      <a href="./started.html" class="btn">Beat This Score<img src="./assets/images/icon-restart.svg" alt="" aria-hidden="true"></a>
     </div>
 
     <img class="confetti" src="./assets/images/pattern-confetti.svg" alt="" aria-hidden="true">

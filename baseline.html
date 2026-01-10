@@ -24,9 +24,10 @@
     .pb{display:flex;align-items:center;gap:8px;color:var(--n0);font-size:13px}
     .pb img{width:18px;height:18px}
 
-    .decor-left,.decor-right{position:absolute;pointer-events:none}
+    .decor-left,.decor-right{position:absolute;pointer-events:none;z-index:0}
     .decor-left{left:-28px;top:140px}
-    .decor-right{right:-28px;top:240px}
+    .decor-right{right:-28px;bottom:100px;top:auto}
+    .middle{flex:1;display:flex;flex-direction:column;justify-content:flex-start;position:relative;z-index:1}
 
     .hero{display:flex;align-items:center;justify-content:center;margin:40px 0 16px}
     .badge{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(closest-side, rgba(0,0,0,.28), transparent 70%)}
@@ -44,15 +45,32 @@
     .card dd .good{color:var(--g500);font-weight:700}
 
     .actions{display:flex;justify-content:center}
-    .btn{display:inline-flex;align-items:center;gap:8px;background:var(--n0);color:var(--n900);border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:10px 16px;text-decoration:none;box-shadow:0 2px 0 rgba(0,0,0,.06) inset}
-    .btn:hover{background:#f2f2f2}
-    .btn img{width:16px;height:16px}
+    .btn{display:inline-flex;align-items:center;gap:8px;background:var(--n0);color:var(--n900);border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:10px 16px;box-shadow:0 2px 0 rgba(0,0,0,.06) inset;text-decoration:none}
+    .btn img{width:16px;height:16px;filter:invert(1)}
 
+    @media (min-width:641px) and (max-width:1024px){
+      #app{padding:24px 32px 60px}
+      .cards{flex-direction:row;justify-content:center;gap:16px}
+      .card{min-width:180px}
+      .hero{margin:40px 0 16px}
+      .title h2{margin:12px 0 6px;font-size:28px}
+      .brand h1,.brand p{display:block}
+    }
     @media (max-width:640px){
-      #app{width:100vw;margin:0;min-height:100vh;padding:16px;border-radius:0;box-shadow:none}
-      .cards{flex-direction:column;align-items:center}
-      .card{width:100%;max-width:320px}
+      html,body{height:100%;overflow:hidden}
+      #app{width:100vw;margin:0;height:100vh;display:flex;flex-direction:column;padding:16px 16px 90px;border-radius:0;box-shadow:none}
+      .cards{flex-direction:column;align-items:center;margin:12px 0 8px}
+      .card{width:100%;max-width:320px;padding:12px 14px}
+      .card dt{font-size:13px}
+      .card dd{font-size:20px;margin:4px 0 0}
+      .hero{margin:20px 0 8px}
+      .title h2{margin:6px 0 3px;font-size:24px}
+      .title p{font-size:13px}
+      .actions{margin-top:auto;position:relative;z-index:1}
+      .btn{padding:10px 16px}
       .brand h1,.brand p{display:none}
+      .decor-left{left:0;top:80px}
+      .decor-right{right:0;bottom:80px;top:auto}
     }
   </style>
 </head>
@@ -73,37 +91,39 @@
       </div>
     </header>
 
-    <img class="decor-left" src="./assets/images/pattern-star-1.svg" alt="" aria-hidden="true">
-    <img class="decor-right" src="./assets/images/pattern-star-2.svg" alt="" aria-hidden="true">
+    <img class="decor-left" src="./assets/images/pattern-star-2.svg" alt="" aria-hidden="true">
+    <img class="decor-right" src="./assets/images/pattern-star-1.svg" alt="" aria-hidden="true">
 
-    <div class="hero">
-      <div class="badge">
-        <img src="./assets/images/icon-completed.svg" alt="" aria-hidden="true">
+    <div class="middle">
+      <div class="hero">
+        <div class="badge">
+          <img src="./assets/images/icon-completed.svg" alt="" aria-hidden="true">
+        </div>
       </div>
-    </div>
 
-    <div class="title">
-      <h2 id="result-title">Baseline Established!</h2>
-      <p id="result-subtitle">You've set the bar. Now the real challenge begins—time to beat it.</p>
-    </div>
+      <div class="title">
+        <h2 id="result-title">Baseline Established!</h2>
+        <p id="result-subtitle">You've set the bar. Now the real challenge begins—time to beat it.</p>
+      </div>
 
-    <section class="cards" aria-label="Results">
-      <dl class="card">
-        <dt>WPM:</dt>
-        <dd id="result-wpm">0</dd>
-      </dl>
-      <dl class="card">
-        <dt>Accuracy:</dt>
-        <dd id="result-accuracy"><span class="bad">0%</span></dd>
-      </dl>
-      <dl class="card">
-        <dt>Characters</dt>
-        <dd id="result-characters"><span class="good">0</span>/<span class="bad">0</span></dd>
-      </dl>
-    </section>
+      <section class="cards" aria-label="Results">
+        <dl class="card">
+          <dt>WPM:</dt>
+          <dd id="result-wpm">0</dd>
+        </dl>
+        <dl class="card">
+          <dt>Accuracy:</dt>
+          <dd id="result-accuracy"><span class="bad">0%</span></dd>
+        </dl>
+        <dl class="card">
+          <dt>Characters</dt>
+          <dd id="result-characters"><span class="good">0</span>/<span class="bad">0</span></dd>
+        </dl>
+      </section>
+    </div>
 
     <div class="actions">
-      <a href="./started.html" class="btn"><img src="./assets/images/icon-new-pb.svg" alt="" aria-hidden="true">Beat This Score</a>
+      <a href="./started.html" class="btn"><img src="./assets/images/icon-restart.svg" alt="" aria-hidden="true">Beat This Score</a>
     </div>
   </main>
 
